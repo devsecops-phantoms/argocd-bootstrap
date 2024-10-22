@@ -1,0 +1,15 @@
+---
+common:
+  kubeServer: https://kubernetes.default.svc
+  bootstrapRepository:
+    url: https://github.com/devsecops-phantoms/argocd-bootstrap.git
+    branch: main
+projects:
+  tools:
+    argocd:
+      namespace: argocd
+  services:
+    backstage:
+      namespace: backstage
+    jfrog:
+      namespace: jfrog

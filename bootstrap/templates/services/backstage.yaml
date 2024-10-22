@@ -1,0 +1,39 @@
+---
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jfrog
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: applications/backstage
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  ignoreDifferences:
+  - group: argoproj.io
+    kind: Application
+    jsonPointers:
+    - /status
+  - group: apps
+    kind: Deployment
+    jsonPointers:
+    - /status
+  destination:
+    server: {{ .Values.common.kubeServer }}
+    namespace: {{ .Values.projects.services.backstage.namespace }}
+  source:
+    repoURL: {{ .Values.common.bootstrapRepository.url }}
+    path: applications/backstage
+    targetRevision: {{ .Values.common.bootstrapRepository.branch }}
+    directory:
+      recurse: true
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ApplyOutOfSyncOnly=true
+      - PruneLast=true
+      - CreateNamespace=true
+      - Validate=false
