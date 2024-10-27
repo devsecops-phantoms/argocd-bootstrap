@@ -3,7 +3,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: jfrog
+  name: backstage
   annotations:
     argocd.argoproj.io/manifest-generate-paths: applications/backstage
   finalizers:
